@@ -1,0 +1,18 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=false
+
+[entry]
+
+Android.arm64-v8a="res://addons/gd_eiffelcam/android/arm64-v8a/libgd_eiffelcam.so"
+OSX.64="res://addons/gd_eiffelcam/osx/libgd_eiffelcam.dylib"
+X11.64="res://addons/gd_eiffelcam/linux/libgd_eiffelcam.so"
+
+[dependencies]
+
+Android.arm64-v8a=[  ]
+OSX.64=[  ]
+X11.64=[  ]

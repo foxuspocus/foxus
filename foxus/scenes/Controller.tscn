@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/RayCast.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=19]
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=20]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 0, 0.392157, 1, 0.501961 )
+
+[sub_resource type="CubeMesh" id=17]
+material = SubResource( 20 )
+size = Vector3( 0.01, 0.01, 1 )
+
+[node name="ARVRController2" type="ARVRController"]
+controller_id = 2
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+visible = false
+mesh = SubResource( 19 )
+material/0 = null
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, 0, -2 )
+collide_with_areas = true
+debug_shape_custom_color = Color( 1, 0, 0, 1 )
+debug_shape_thickness = 4
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="RayCast"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.02162 )
+mesh = SubResource( 17 )
+skeleton = NodePath("../..")
+material/0 = null

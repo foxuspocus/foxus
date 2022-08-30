@@ -1,0 +1,16 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=false
+
+[entry]
+
+Android.arm64-v8a="res://gd_eiffelcam/bin/android/arm64-v8a/libgd_eiffelcam.so"
+OSX.64="res://gd_eiffelcam/bin/osx/libgd_eiffelcam.dylib"
+
+[dependencies]
+
+Android.arm64-v8a=[  ]
+OSX.64=[  ]

@@ -1,0 +1,17 @@
+buffers: {
+    size_kb: 63488
+    fill_policy: DISCARD
+}
+
+buffers: {
+    size_kb: 63488
+    fill_policy: DISCARD
+}
+
+data_sources: {
+    config: {
+       name: "track_event"
+     }
+}
+
+duration_ms: 30000

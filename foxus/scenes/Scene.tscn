@@ -1,0 +1,199 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://addons/gd_eiffelcam/gd_eiffelcam.gdns" type="Script" id=1]
+[ext_resource path="res://fsquad.gdshader" type="Shader" id=2]
+[ext_resource path="res://scenes/EiffelCameraMesh.gd" type="Script" id=3]
+[ext_resource path="res://scenes/SceneSetup.gd" type="Script" id=4]
+[ext_resource path="res://scenes/VRUI.gd" type="Script" id=5]
+[ext_resource path="res://scenes/Controller.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/ShaderSpecificNode.gd" type="Script" id=7]
+[ext_resource path="res://scenes/DisparityMapQuad.gd" type="Script" id=8]
+[ext_resource path="res://scenes/UserNotificationQuad.gd" type="Script" id=9]
+[ext_resource path="res://scenes/UserInterface.tscn" type="PackedScene" id=10]
+[ext_resource path="res://fonts/DroidSansFallback.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://disparity_map.tres" type="Shader" id=12]
+[ext_resource path="res://scenes/Area.gd" type="Script" id=16]
+[ext_resource path="res://scenes/UIViewport.gd" type="Script" id=17]
+
+[sub_resource type="DynamicFont" id=19]
+size = 30
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 11 )
+
+[sub_resource type="QuadMesh" id=1]
+custom_aabb = AABB( -32768, -32768, -32768, 65536, 65536, 65536 )
+size = Vector2( 128, 96 )
+center_offset = Vector3( 0, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/color_space = null
+shader_param/uv_offset = null
+shader_param/current_frame_index = null
+shader_param/frame_array_size = null
+shader_param/remap_mode = null
+shader_param/display_error = false
+shader_param/frame_diff = 9
+
+[sub_resource type="QuadMesh" id=23]
+custom_aabb = AABB( -32768, -32768, -32768, 65536, 65536, 65536 )
+size = Vector2( 128, 96 )
+center_offset = Vector3( 0, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=25]
+resource_local_to_scene = true
+shader = ExtResource( 12 )
+
+[sub_resource type="QuadMesh" id=22]
+custom_aabb = AABB( -32768, -32768, -32768, 65536, 65536, 65536 )
+size = Vector2( 51, 2.1 )
+center_offset = Vector3( 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=21]
+flags_transparent = true
+albedo_color = Color( 1, 1, 1, 0.498039 )
+
+[sub_resource type="QuadMesh" id=10]
+resource_local_to_scene = true
+size = Vector2( 0.5, 1 )
+
+[sub_resource type="Shader" id=35]
+code = "shader_type spatial;
+render_mode unshaded;
+uniform sampler2D text: hint_albedo;
+
+void fragment() {
+	ALBEDO = texture(text,vec2(UV.x, 1.0 - UV.y)).rgb;
+}
+
+"
+
+[sub_resource type="ViewportTexture" id=37]
+viewport_path = NodePath("ViewportContainer/Viewport")
+
+[sub_resource type="ShaderMaterial" id=36]
+resource_local_to_scene = true
+shader = SubResource( 35 )
+shader_param/text = SubResource( 37 )
+
+[sub_resource type="BoxShape" id=18]
+extents = Vector3( 0.25, 0.5, 0.01 )
+
+[node name="Scene" type="Spatial"]
+script = ExtResource( 4 )
+
+[node name="ErrorViewport" type="Viewport" parent="."]
+size = Vector2( 1028, 768 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="Label" type="Label" parent="ErrorViewport"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 19 )
+text = "Help"
+align = 1
+valign = 1
+
+[node name="ARVROrigin" type="ARVROrigin" parent="."]
+
+[node name="FullscreenQuad" type="MeshInstance" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
+cast_shadow = 0
+generate_lightmap = false
+mesh = SubResource( 1 )
+skeleton = NodePath("")
+software_skinning_transform_normals = false
+material/0 = SubResource( 6 )
+script = ExtResource( 3 )
+
+[node name="ShaderSpecificNode" type="Node" parent="ARVROrigin/FullscreenQuad"]
+script = ExtResource( 7 )
+
+[node name="DisparityMapQuad" type="MeshInstance" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
+visible = false
+cast_shadow = 0
+generate_lightmap = false
+mesh = SubResource( 23 )
+skeleton = NodePath("")
+software_skinning_transform_normals = false
+material/0 = SubResource( 25 )
+script = ExtResource( 8 )
+
+[node name="UserNotificationQuad" type="MeshInstance" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -49.9 )
+visible = false
+cast_shadow = 0
+generate_lightmap = false
+mesh = SubResource( 22 )
+skeleton = NodePath("")
+software_skinning_transform_normals = false
+material/0 = SubResource( 21 )
+script = ExtResource( 9 )
+
+[node name="PopupTimer" type="Timer" parent="ARVROrigin/UserNotificationQuad"]
+
+[node name="NotificationViewport" type="Viewport" parent="ARVROrigin/UserNotificationQuad"]
+size = Vector2( 392, 14 )
+render_target_v_flip = true
+
+[node name="UserNotificationDialog" type="Control" parent="ARVROrigin/UserNotificationQuad/NotificationViewport"]
+
+[node name="MessageBackground" type="ColorRect" parent="ARVROrigin/UserNotificationQuad/NotificationViewport/UserNotificationDialog"]
+color = Color( 0.364706, 0.364706, 0.364706, 1 )
+
+[node name="NotificationMessage" type="Label" parent="ARVROrigin/UserNotificationQuad/NotificationViewport/UserNotificationDialog"]
+margin_right = 392.0
+margin_bottom = 14.0
+text = "Insert notification messages here."
+align = 1
+valign = 1
+
+[node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
+far = 1000.0
+
+[node name="ARVRController" parent="ARVROrigin" instance=ExtResource( 6 )]
+controller_id = 1
+
+[node name="ARVRController2" parent="ARVROrigin" instance=ExtResource( 6 )]
+
+[node name="VRUI" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.135482, -0.0853351, -0.806555 )
+visible = false
+mesh = SubResource( 10 )
+material/0 = SubResource( 36 )
+script = ExtResource( 5 )
+
+[node name="Area" type="Area" parent="VRUI"]
+script = ExtResource( 16 )
+
+[node name="CollisionShape" type="CollisionShape" parent="VRUI/Area"]
+shape = SubResource( 18 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_right = 320.0
+margin_bottom = 640.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 320, 640 )
+transparent_bg = true
+handle_input_locally = false
+hdr = false
+usage = 1
+render_direct_to_screen = true
+render_target_update_mode = 3
+script = ExtResource( 17 )
+
+[node name="Control" parent="ViewportContainer/Viewport" instance=ExtResource( 10 )]
+
+[node name="EiffelCamera" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[connection signal="input_event" from="VRUI/Area" to="VRUI/Area" method="_on_Area_input_event"]
+
+[editable path="ARVROrigin/ARVRController"]
+[editable path="ARVROrigin/ARVRController2"]
+[editable path="ViewportContainer/Viewport/Control"]

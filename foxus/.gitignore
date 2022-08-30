@@ -1,0 +1,13 @@
+.DS_Store
+/.import
+*.os
+*.so
+*.a
+*.dylib
+*.o
+.sconsign.dblite
+/android/build/build/
+/android/build/godot.properties
+.idea/
+assets/
+.gradle/

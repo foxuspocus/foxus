@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="UserNotificationDialog" type="Control"]
+margin_right = 350.0
+margin_bottom = 14.0
+
+[node name="TextBackground" type="ColorRect" parent="."]
+margin_right = 350.0
+margin_bottom = 14.0
+color = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="NotificationMessage" type="Label" parent="."]
+margin_right = 350.0
+margin_bottom = 14.0
+text = "Insert notification messages here."
+align = 1
+valign = 1

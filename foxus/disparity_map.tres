@@ -1,0 +1,11 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+
+uniform sampler2D disparity_map;
+
+void fragment(){
+	ALBEDO = texture(disparity_map, UV).rgb;
+	ALPHA = 1.0;
+}"

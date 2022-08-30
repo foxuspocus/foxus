@@ -1,0 +1,7 @@
+[config]
+
+name="EiffelCamera"
+binary_type="local"
+binary="EiffelCamera/eiffelcamera/build/outputs/aar/eiffelcamera-debug.aar"
+
+[dependencies]

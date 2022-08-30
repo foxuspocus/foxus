@@ -1,0 +1,26 @@
+**/node_modules
+
+luts/*.cube
+.vscode/
+vendor/calibration/**/*.png
+vendor/calibration/calibration-images/**
+
+# python virtual envs
+venv
+
+# godot stuff
+.import/
+**/*.import
+
+# macos crap
+.DS_Store
+
+godot-*/**
+godot-*
+**/*.log
+
+gd_eiffelcam/src/*.os
+
+foxus/android/build/*
+gd_eiffelcam/build/*
+gd_eiffelcam/.sconsign.dblite
