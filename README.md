@@ -15,7 +15,8 @@ is also included with this software.
 
 ## Prepare for Building Foxus
 
-Linux and MacOS is supported for development.
+Linux and MacOS on Intel is supported for development. 
+**M1 and M2 chips are not supported.**
 
 1. Clone this repository and its submodules:
 ```
